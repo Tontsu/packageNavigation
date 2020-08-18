@@ -24,8 +24,14 @@ class App extends Component {
 
   fileParserHandler = (file) => {
     const fileParser = new FileParser(file);
-    const packages = fileParser.parseFile();
-    this.packageHandler(packages);
+    try {
+      this.packageHandler(fileParser.parseFile());
+    }
+    catch {
+      alert("Invalid file");
+      window.location.reload(false);
+    }
+
   }
 
   packageHandler = (packages) => {
