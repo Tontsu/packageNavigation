@@ -1,7 +1,10 @@
-Small package navigation utility for Debian family systems.
-This utility converts installed packages info file into html.
+## Description
 
-Packages info file is created by running included `getPackages.sh` script.
-The script creates a `status.real` file which contains info about installed packages.
+Small package navigation utility made with React for Debian family Linux systems or systems with dpkg.
+This utility converts `status.real` files made with dpkg into html.
 
-Made in React.
+## Usage
+
+Run included `getPackages.sh` script to make the `status.real` file which contains information about installed packages in your system. Input the `status.real` file into this navigation utility to convert it into html.
+
+Utility has been deployed [here](https://tranquil-springs-15086.herokuapp.com/).
