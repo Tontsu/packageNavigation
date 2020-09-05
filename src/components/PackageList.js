@@ -16,7 +16,7 @@ class PackageList extends Component {
   }
 
   generatePanel = (item, index) => {
-    const linkList = generateDependencyLinkList(item);
+    const linkList = generateDependencyLinkList(item, this.props.updateSearch);
 
     return (
         <ExpansionPanel key={"panel-" + index} className="content">
@@ -42,8 +42,9 @@ class PackageList extends Component {
 
   render() {
     let allPanels = [];
+    let filtered = this.props.packages.filter(pack => pack.name.startsWith(this.props.search));
 
-    this.props.packages.forEach((item, index) => {
+    filtered.slice(0, 50).forEach((item, index) => {
       const panel = this.generatePanel(item, index);
       allPanels = allPanels.concat(panel);
     });

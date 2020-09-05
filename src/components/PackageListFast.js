@@ -23,7 +23,7 @@ class PackageListFast extends Component {
   }
 
   renderItemDetails = (item) => {
-    const linkList = generateDependencyLinkList(item);
+    const linkList = generateDependencyLinkList(item, this.props.updateSearch);
     return (
       <Segment basic>
         <Grid columns={1}>
@@ -60,15 +60,16 @@ class PackageListFast extends Component {
 
   render () {
     let allItemRows = [];
+    let filtered = this.props.packages.filter(pack => pack.name.startsWith(this.props.search));
 
-    this.props.packages.forEach((item, index) => {
+    filtered.slice(0, 50).forEach((item, index) => {
       const itemRows = this.renderItem(item, index);
       allItemRows = allItemRows.concat(itemRows);
     });
 
     return (
       <div>
-        <Table selectable>
+        <Table selectable className="Table">
           <Table.Header>
           </Table.Header>
           <Table.Body className="Item">{allItemRows}</Table.Body>
