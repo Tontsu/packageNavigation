@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Table, Segment, Grid } from "semantic-ui-react";
-import { generateDependencyLinkList } from "../utils/UIUtils";
+import { generateDependencyLinkList, searchFilter } from "../utils/UIUtils";
 
 class PackageListFast extends Component {
   constructor() {
     super();
     this.state = {
-      expandedRows: []
+      expandedRows: [],
+      names: [],
+      panels: {},
+      panelsToShow: []
     };
   }
 
@@ -24,15 +27,14 @@ class PackageListFast extends Component {
 
   renderItemDetails = (item) => {
     const linkList = generateDependencyLinkList(item, this.props.updateSearch);
+    const linebreakedLinkList = linkList.map(s => <React.Fragment key={s.key}>{s}<br/></React.Fragment>);
     return (
       <Segment basic>
         <Grid columns={1}>
           <Grid.Column className="Content">
             <span className="saveLineBreaks">{item.description}</span>
               <br/>
-              {linkList.map((item, key) => {
-                return <span key={key}>{item}<br/></span>
-              })}
+              {linebreakedLinkList}
           </Grid.Column>
         </Grid>
       </Segment>
@@ -58,21 +60,45 @@ class PackageListFast extends Component {
     return itemRows;
   }
 
-  render () {
-    let allItemRows = [];
-    let filtered = this.props.packages.filter(pack => pack.name.startsWith(this.props.search));
+  generatePanelsList = () => {
+    const packages = this.props.packages;
+    let names = [];
+    let panels = {};
 
-    filtered.slice(0, 50).forEach((item, index) => {
+    packages.forEach((item, index) => {
       const itemRows = this.renderItem(item, index);
-      allItemRows = allItemRows.concat(itemRows);
+      names = names.concat(item.name);
+      panels[item.name] = itemRows;
     });
+    return [names, panels];
+  }
 
+  componentDidUpdate = (prevProps) => {
+    const differentPackages = this.props.packages !== prevProps.packages;
+    const differentSearch = this.props.search !== prevProps.search;
+    if(differentPackages) {
+      const values = this.generatePanelsList();
+      this.setState({
+        names: values[0],
+        panels: values[1],
+        panelsToShow: searchFilter(values[0], values[1], this.props.search)
+      })
+    }
+    if(differentSearch) {
+      let panelsToShow = searchFilter(this.state.names, this.state.panels, this.props.search);
+      this.setState({
+        panelsToShow: panelsToShow
+      })
+    }
+  }
+
+  render () {
     return (
       <div>
         <Table selectable className="Table">
           <Table.Header>
           </Table.Header>
-          <Table.Body className="Item">{allItemRows}</Table.Body>
+          <Table.Body className="Item">{this.state.panelsToShow}</Table.Body>
         </Table>
       </div>
     )

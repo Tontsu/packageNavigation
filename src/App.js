@@ -57,18 +57,17 @@ class App extends Component {
 
   updateSearch = (event) => {
     this.setState({
-      search: event.target.id
+      search: event.currentTarget.id
     })
-    console.log(event.target)
   }
 
   render() {
     let packageList;
     if (this.state.fast) {
-      packageList = <PackageListFast packages={this.state.packages} search={this.state.search} updateSearch={this.updateSearch}/>;
+      packageList = <PackageListFast packages={this.state.packages} search={this.state.search.toLowerCase()} updateSearch={this.updateSearch}/>;
     }
     else {
-      packageList = <PackageList packages={this.state.packages} search={this.state.search} updateSearch={this.updateSearch}/>;
+      packageList = <PackageList packages={this.state.packages} search={this.state.search.toLowerCase()} updateSearch={this.updateSearch}/>;
     }
 
     return (
@@ -77,7 +76,7 @@ class App extends Component {
         <form className="SearchBox">
           <TextField id="standard-full-width" label="Search" onChange={this.searchHandler} variant="outlined" value={this.state.search} fullWidth />
         </form>
-        <div style={{ display: this.state.hidden ? 'none' : '', }}>
+        <div style={{ display: this.state.hidden ? 'none' : '',}}>
           <label className="label" htmlFor="button" >
             <Button className="button" variant="contained" component="span" size="medium">File input
               <input color="primary" accept=".real" type="file" onChange={this.fileReaderHandler} id="button" style={{ display: 'none', }}/>
