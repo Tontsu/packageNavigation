@@ -5,9 +5,9 @@ This utility converts `status.real` files made with dpkg into html.
 
 ## Deploy
 
-Build and deploy with Docker:
-`docker build .`
-`docker run -p 80:8080 "Image name or id" `
+Build and deploy with Docker:  
+`docker build .`  
+`docker run -p 80:8080 <Image name or id> `
 
 Utility has been deployed on [Heroku](https://tranquil-springs-15086.herokuapp.com/).
 
