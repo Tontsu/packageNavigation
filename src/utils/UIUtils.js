@@ -17,7 +17,7 @@ export function searchFilter(names, panels, searchString) {
 
   let startsWith = names.filter(name => name.startsWith(searchString));
   let includes = names.filter(name => name.includes(searchString));
-  let filtered = [...new Set([...startsWith, ...includes])].slice(0, 20);
+  let filtered = [...new Set([...startsWith, ...includes])].slice(0, 50);
 
   filtered.forEach((name) => {
     panelsToShow = panelsToShow.concat(panels[name]);

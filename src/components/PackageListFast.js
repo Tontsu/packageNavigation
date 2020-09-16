@@ -73,10 +73,11 @@ class PackageListFast extends Component {
     return [names, panels];
   }
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps, prevState) => {
     const differentPackages = this.props.packages !== prevProps.packages;
     const differentSearch = this.props.search !== prevProps.search;
-    if(differentPackages) {
+    const expandedRow = this.state.expandedRows !== prevState.expandedRows;
+    if(differentPackages || expandedRow) {
       const values = this.generatePanelsList();
       this.setState({
         names: values[0],
